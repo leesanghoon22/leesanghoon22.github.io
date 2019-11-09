@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <link href="reset.css" rel="stylesheet" />
+    <link href="jquery-ui.min.css" rel="stylesheet" />
+    <script src="../jquery-min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="../fontawesome-free-5.11.2-web/js/all.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <meta charset="utf-8" />
+    <title>후니의 블로그</title>
+    <style>
+        @font-face {
+            font-family: 'Dancing Script';
+            src: url('DancingScript-Bold.ttf') format('truetype');
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+        h3 {
+            font-size: 1.17em;
+        }
+
+        h4 {
+            font-size: 1em;
+        }
+
+        h5 {
+            font-size: 0.83em;
+        }
+
+        h6,p {
+            font-size: 0.67em;
+        }
+       
+        header {
+            background: url('main_background.jpg');
+            width: 100%;
+            height: 700px;
+            background-size: 100% 700px;
+            background-repeat: no-repeat;
+            background-attachment : fixed;
+        }
+
+        .navbar-brand {
+            color: black;
+            font-family: 'Dancing Script';
+            font-size: 20pt;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 99999999;
+            height: 45px;
+            line-height: 5px;
+            transition: top 0.2s ease-in-out;
+        }
+
+        .nav-up {
+            top: -45px;
+        }
+
+        .nav-down {
+            top: 0;
+        }
+
+        .btn-menu {
+            position: relative;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            border: 0px;
+            line-height: 10px;
+            display: inline-block;
+        }
+
+            .btn-menu:focus {
+                outline: 0;
+            }
+
+        aside {
+            position: fixed;
+            top: 0px;
+            width: 300px;
+            height: 100%;
+            background: rgba(219, 219, 219, 0.70);
+            left: -300px;
+            background-image: url('aside_img.jpg');
+            background-repeat: no-repeat;
+            background-size: 300px 100%;
+            text-align: center;
+        }
+
+        .dis_block {
+            left: 0px;
+        }
+
+        #aside_img {
+            display: block;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            border-radius: 60px;
+            position: relative;
+            top: 115px;
+        }
+
+            #aside_img:hover {
+                cursor: pointer;
+            }
+
+        .none_btn {
+            background: none;
+            border: 0;
+            margin: 0px;
+            padding: 0px;
+        }
+
+            .none_btn:focus {
+                outline: 0;
+            }
+
+        #menu_bar > li {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            font-size: 2em;
+            color: white;
+        }
+
+            #menu_bar > li:hover {
+                background: rgba(0, 0, 0, 0.20);
+                border-left: 4px solid white;
+                transition-duration: 0.2s;
+            }
+
+        .modal_list {
+            line-height: 200%;
+        }
+
+        #hoony_title:hover {
+            color: black;
+            text-shadow: 2px 2px 2px gray;
+        }
+
+        #main_cat {
+            width: 160px;
+            height: 160px;
+            border-radius: 80px;
+            margin: 0 auto;
+            display: block;
+            line-height: 80px;
+        }
+
+        footer {
+            text-align: center;
+            width: 100%;
+            height: 200px;
+        }
+
+        .modal-content {
+            position: relative;
+            top: 40px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            $('.btn-menu').click(function () {
+                if ($('aside').hasClass('dis_block') === false)
+                    $('aside').addClass('dis_block', 300);
+                else
+                    $('aside').removeClass('dis_block', 300);
+            });
+
+            $(window).click(function (e) {
+                tagname = e.target.nodeName;
+
+                if ($('aside').hasClass('dis_block') === true) {
+                    if (tagname === 'ASIDE')
+                        $('aside').addClass('dis_block', 300);
+                    else
+                        $('aside').removeClass('dis_block', 300);
+                }
+            });
+
+
+            $('#aside_img').click(function () {
+                location.href = 'index.html';
+            });
+
+            $('#hoony_title').hover(function () {
+                $(this).animate({
+                    paddingLeft: '3px',
+
+                }, 200);
+            }, function () {
+                $(this).animate({
+                    paddingLeft: '0px',
+
+                }, 200);
+            });
+
+            var didScroll;
+            var lastScrollTop = 0;
+            var delta = 5;
+            var navbarHeight = $('.navbar').outerHeight();
+            $(window).scroll(function (event) {
+                didScroll = true;
+            });
+
+            setInterval(function () {
+                if (didScroll) {
+                    hasScrolled();
+                    didScroll = false;
+
+                }
+            });
+            function hasScrolled() {
+                var st = $(this).scrollTop();
+
+                if (Math.abs(lastScrollTop - st) <= delta)
+                    return;
+
+                if (st > lastScrollTop && st > navbarHeight) {
+                    $('.navbar').removeClass('nav-down').addClass('nav-up');
+                }
+                else {
+                    if (st + $(window).height() < $(document).height()) {
+
+                        $('.navbar').removeClass('nav-up').addClass('nav-down')
+                    }
+                }
+                lastScrollTop = st;
+            }
+        });
+    </script>
+  
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-default bg-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="btn-menu" style="background:url('../fontawesome-free-5.11.2-web/svgs/solid/align-justify.svg'); background-position:center; background-repeat:no-repeat;"></button>
+                    <a id="hoony_title" class="navbar-brand" href="index.html" style="margin-left:10px;">Hoony</a>
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-8 mx-auto" style="position:relative; top:120px; text-align:center;">
+
+                <img id="main_cat" src="cat.jpg" />
+                <h1 style="font-size:3.3em; color:white;">Developer</h1>
+                <h3 style="color:white;">후니의 개발 블로그</h3>
+                <h3 style="color:white;">sanghoon0120@gmail.com</h3>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+
+        </div>
+    </section>
+    <aside id="menu_bar">
+            <img id="aside_img" src="cat.jpg" />
+        <h6 style="position:relative; top:115px; font-size:1.5em;">Lee Sanghoon</h6>
+        <p style="position:relative; top:115px;">sanghoon0120@gmail.com</p>
+       <br /><br />
+        <ul id="menu_bar" style="position:relative; top:115px;">
+            <li>
+                <button type="button" class="none_btn" data-toggle="modal" data-target="#exampleModal" style="color:white;">
+                 ABOUT
+                </button>
+            </li>
+            <li><a href="posts.html" style="color:white;">POSTS</a></li>
+        </ul>
+    </aside>
+    <footer style="background:#808080; color:white;">
+        <div class="container">
+            <div class="row">
+                <div class="col-6" style="margin-top:30px; ">
+                    <h4>Copyright &copy; 2019</h4><h4>이상훈(SangHoon Lee)</h4>
+                   
+                </div>
+                <div class="col-6" style="margin-top:20px;">
+                    <h2 style="font-weight:500; ">소개</h2>
+                    <ul style="list-style:none; line-height:20px;">
+                        <li>웹개발에 관심이 많은 개발자 입니다.</li>
+                        <li>다양한 기술을 배우는걸 좋아합니다.</li>
+                    </ul>
+                   
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="font-size:1.5em;">ABOUT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1 style="color: #4289df; text-shadow:2px 2px 2px gray;">Welcome!!</h1>
+                    <br />
+                    <h3 style="font-weight:bold;">웹개발자 후니 입니다.</h3>
+                    <br />
+                  
+                    <ul class="modal_list" style="position:relative; left:40px;">
+                        <li>제 블로그에 방문해주셔서 감사합니다</li>
+                        <li>웹개발에 관심이 많고 현재 백엔드를 공부중 입니다.</li>
+                        <li>새롭고 다양한 기술들을 배우는걸 좋아합니다.</li>
+                        <li>백-엔드언어를 숙달 후 사이트를 수정하겠습니다.</li>
+                    </ul>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</body>
+</html>
